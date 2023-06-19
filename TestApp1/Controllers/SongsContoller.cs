@@ -44,11 +44,14 @@ namespace PracticeApp2.Controllers
             _dbContext.SaveChanges();
         }
 
-        //// PUT api/SongsController/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        // PUT api/SongsController/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Song newSong)
+        {
+            Song song = new Song() { Id=id};
+                _dbContext.Entry<Song>(song).CurrentValues.SetValues(newSong);
+                _dbContext.SaveChanges();
+        }
 
         // DELETE api/SongsController/5
         [HttpDelete("{id}")]

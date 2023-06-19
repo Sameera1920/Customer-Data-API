@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestApp1.Data;
 using TestApp1.Models;
 
@@ -49,11 +50,15 @@ namespace PracticeApp2.Controllers
         //{
         //}
 
-        //// DELETE api/SongsController/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/SongsController/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            Song song = new Song() { Id = id };
+            _dbContext.Songs.Attach(song);
+            _dbContext.Songs.Remove(song);
+            _dbContext.SaveChanges();
+        }
     }
 }
 

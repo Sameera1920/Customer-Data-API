@@ -40,6 +40,7 @@ namespace PracticeApp2.Controllers
         public void Post([FromBody] Song song)
         {
             _dbContext.Add(song);
+            _dbContext.SaveChanges();
         }
 
         //// PUT api/SongsController/5

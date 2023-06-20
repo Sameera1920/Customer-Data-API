@@ -22,7 +22,7 @@ namespace PracticeApp2.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/SongsController
+        // GET: api/Songs
         [HttpGet]
         public IEnumerable<Song> Get()
         {
@@ -36,7 +36,7 @@ namespace PracticeApp2.Controllers
         //    return "value";
         //}
 
-        // POST api/SongsController
+        // POST api/Songs
         [HttpPost]
         public void Post([FromBody] Song song)
         {
@@ -44,7 +44,7 @@ namespace PracticeApp2.Controllers
             _dbContext.SaveChanges();
         }
 
-        // PUT api/SongsController/5
+        // PUT api/Songs/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Song song)
         {
@@ -57,7 +57,7 @@ namespace PracticeApp2.Controllers
             }
         }
 
-        // DELETE api/SongsController/5
+        // DELETE api/Songs/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

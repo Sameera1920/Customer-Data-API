@@ -43,10 +43,11 @@ namespace PracticeApp2.Controllers
 
         // POST api/Songs
         [HttpPost]
-        public void Post([FromBody] Song song)
+        public async Task<IActionResult> Post([FromBody] Song song)
         {
-            _dbContext.Add(song);
-            _dbContext.SaveChanges();
+            await _dbContext.AddAsync(song);
+            await _dbContext.SaveChangesAsync();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         // PUT api/Songs/5

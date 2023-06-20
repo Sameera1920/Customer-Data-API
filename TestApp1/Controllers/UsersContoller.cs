@@ -22,43 +22,48 @@ namespace PracticeApp2.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/Songs
+        // GET: api/Users
         [HttpGet]
-        public IEnumerable<Song> Get()
+        public IEnumerable<User> Get()
         {
-            return _dbContext.Songs;
+            return _dbContext.Users;
         }
 
-        // GET api/Songs/5
+        // GET api/Users/5
         [HttpGet("{id}")]
-        public IEnumerable<Song> Get(int id)
+        public IEnumerable<User> Get(int id)
         {
-            var song = _dbContext.Songs.Find(id);
-            if (song!= null)
+            var user = _dbContext.Users.Find(id);
+            if (user!= null)
             {
-                yield return song;
+                yield return user;
             }
-            
         }
 
-        // POST api/Songs
+        // POST api/Users
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Song song)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
-            await _dbContext.AddAsync(song);
+            await _dbContext.AddAsync(user);
             await _dbContext.SaveChangesAsync();
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        // PUT api/Songs/5
+        // PUT api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Song song)
+        public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
-            var songObj = await _dbContext.Songs.FindAsync(id);
-            if (songObj !=null)
+            var userObj = await _dbContext.Users.FindAsync(id);
+            if (userObj !=null)
             {
-                songObj.Title = song.Title;
-                songObj.Language = song.Language;
+                userObj.index = user.index;
+                userObj.age = user.age;
+                userObj.eyeColor = user.eyeColor;
+                userObj.name = user.name;
+                userObj.gender = user.gender;
+                userObj.company = user.company;
+                userObj.email = user.email;
+                userObj.phone = user.phone;
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");
 
@@ -69,14 +74,14 @@ namespace PracticeApp2.Controllers
             }
         }
 
-        // DELETE api/Songs/5
+        // DELETE api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var song = await _dbContext.Songs.FindAsync(id);
-            if (song != null)
+            var user = await _dbContext.Users.FindAsync(id);
+            if (user != null)
             {
-                _dbContext.Songs.Remove(song);
+                _dbContext.Users.Remove(user);
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record deleted succesfully!");
             }

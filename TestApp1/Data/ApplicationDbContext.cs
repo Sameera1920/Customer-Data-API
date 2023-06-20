@@ -25,13 +25,13 @@ public class ApplicationDbContext : IdentityDbContext
     {
     }
         
-        public DbSet<Song> Songs { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Song>();
+            modelBuilder.Entity<User>();
         }
    
 }

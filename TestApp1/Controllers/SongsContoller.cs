@@ -46,11 +46,15 @@ namespace PracticeApp2.Controllers
 
         // PUT api/SongsController/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Song newSong)
+        public void Put(int id, [FromBody] Song song)
         {
-            Song song = new Song() { Id=id};
-                _dbContext.Entry<Song>(song).CurrentValues.SetValues(newSong);
+            var songObj = _dbContext.Songs.Find(id);
+            if (songObj !=null)
+            {
+                songObj.Title = song.Title;
+                songObj.Language = song.Language;
                 _dbContext.SaveChanges();
+            }
         }
 
         // DELETE api/SongsController/5
@@ -58,9 +62,12 @@ namespace PracticeApp2.Controllers
         public void Delete(int id)
         {
             Song song = new Song() { Id = id };
-            _dbContext.Songs.Attach(song);
-            _dbContext.Songs.Remove(song);
-            _dbContext.SaveChanges();
+            if (song != null)
+            {
+                _dbContext.Songs.Attach(song);
+                _dbContext.Songs.Remove(song);
+                _dbContext.SaveChanges();
+            }
         }
     }
 }

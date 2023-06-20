@@ -13,11 +13,11 @@ namespace PracticeApp2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private ApplicationDbContext _dbContext;
 
-        public SongsController(ApplicationDbContext dbContext)
+        public UsersController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -40,8 +40,9 @@ namespace TestApp1.Controllers
             }
         }
 
-        // POST api/Users
-        [HttpPost]
+       
+    // POST api/Users
+    [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             await _dbContext.AddAsync(user);
@@ -56,14 +57,15 @@ namespace TestApp1.Controllers
             var userObj = await _dbContext.Users.FindAsync(id);
             if (userObj !=null)
             {
-                userObj.index = user.index;
-                userObj.age = user.age;
-                userObj.eyeColor = user.eyeColor;
-                userObj.name = user.name;
-                userObj.gender = user.gender;
-                userObj.company = user.company;
-                userObj.email = user.email;
-                userObj.phone = user.phone;
+                userObj.Index = user.Index;
+                userObj.Age = user.Age;
+                userObj.EyeColor = user.EyeColor;
+                userObj.Name = user.Name;
+                userObj.Gender = user.Gender;
+                userObj.Company = user.Company;
+                userObj.Email = user.Email;
+                userObj.Phone = user.Phone;
+                userObj.Address = user.Address;
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");
 

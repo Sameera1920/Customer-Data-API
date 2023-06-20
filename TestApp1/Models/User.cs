@@ -11,14 +11,14 @@ namespace TestApp1.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public int index { get; set; }
+        public int Id { get; set; }
+        public int Andex { get; set; }
         public int age { get; set; }
-        public string? eyeColor { get; set; }
-        public string? name { get; set; }
-        public string? gender { get; set; }
-        public string? company { get; set; }
-        public string? email { get; set; }
-        public string? phone { get; set; }
+        public string? EyeColor { get; set; }
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
+        public string? Company { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
     }
 }

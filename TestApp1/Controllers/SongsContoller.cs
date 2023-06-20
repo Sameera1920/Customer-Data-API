@@ -71,14 +71,13 @@ namespace PracticeApp2.Controllers
 
         // DELETE api/Songs/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var song = _dbContext.Songs.Find(id);
+            var song = await _dbContext.Songs.FindAsync(id);
             if (song != null)
             {
-                _dbContext.Songs.Attach(song);
                 _dbContext.Songs.Remove(song);
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
                 return Ok("Record deleted succesfully!");
             }
             else

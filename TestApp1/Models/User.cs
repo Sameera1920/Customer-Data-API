@@ -26,6 +26,7 @@ namespace TestApp1.Models
 
     public class Address
     {
+        [Key]
         public int Number { get; set; }
         public string? Company { get; set; }
         public string? Email { get; set; }

@@ -52,14 +52,14 @@ namespace PracticeApp2.Controllers
 
         // PUT api/Songs/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Song song)
+        public async Task<IActionResult> Put(int id, [FromBody] Song song)
         {
-            var songObj = _dbContext.Songs.Find(id);
+            var songObj = await _dbContext.Songs.FindAsync(id);
             if (songObj !=null)
             {
                 songObj.Title = song.Title;
                 songObj.Language = song.Language;
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");
 
             }

@@ -9,7 +9,7 @@ using TestApp1.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace PracticeApp2.Controllers
+namespace TestApp1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

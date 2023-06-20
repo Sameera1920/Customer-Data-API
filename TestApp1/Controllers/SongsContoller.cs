@@ -29,12 +29,16 @@ namespace PracticeApp2.Controllers
             return _dbContext.Songs;
         }
 
-        //// GET api/SongsController/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        // GET api/Songs/5
+        [HttpGet("{id}")]
+        public IEnumerable<Song> Get(int id)
+        {
+            var song = _dbContext.Songs.Find(id);
+            if (song!= null)
+            {
+                yield return song;
+            }
+        }
 
         // POST api/Songs
         [HttpPost]

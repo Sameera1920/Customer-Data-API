@@ -38,6 +38,7 @@ namespace PracticeApp2.Controllers
             {
                 yield return song;
             }
+            
         }
 
         // POST api/Songs
@@ -50,7 +51,7 @@ namespace PracticeApp2.Controllers
 
         // PUT api/Songs/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Song song)
+        public IActionResult Put(int id, [FromBody] Song song)
         {
             var songObj = _dbContext.Songs.Find(id);
             if (songObj !=null)
@@ -58,19 +59,30 @@ namespace PracticeApp2.Controllers
                 songObj.Title = song.Title;
                 songObj.Language = song.Language;
                 _dbContext.SaveChanges();
+                return Ok("Record updated succesfully!");
+
+            }
+            else
+            {
+                return NotFound("No records found for the provided Id ");
             }
         }
 
         // DELETE api/Songs/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            Song song = new Song() { Id = id };
+            var song = _dbContext.Songs.Find(id);
             if (song != null)
             {
                 _dbContext.Songs.Attach(song);
                 _dbContext.Songs.Remove(song);
                 _dbContext.SaveChanges();
+                return Ok("Record deleted succesfully!");
+            }
+            else
+            {
+                return NotFound("No records found for the provided Id ");
             }
         }
     }

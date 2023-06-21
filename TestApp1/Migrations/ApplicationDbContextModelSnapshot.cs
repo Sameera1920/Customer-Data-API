@@ -224,7 +224,7 @@ namespace TestApp1.Migrations
                     b.Property<string>("City")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Number")
+                    b.Property<int?>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("State")
@@ -233,12 +233,12 @@ namespace TestApp1.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Zipcode")
+                    b.Property<int?>("Zipcode")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("TestApp1.Models.User", b =>
@@ -335,10 +335,15 @@ namespace TestApp1.Migrations
             modelBuilder.Entity("TestApp1.Models.User", b =>
                 {
                     b.HasOne("TestApp1.Models.Address", "Address")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("TestApp1.Models.Address", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

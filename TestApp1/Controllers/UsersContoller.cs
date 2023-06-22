@@ -108,16 +108,23 @@ namespace TestApp1.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _dbContext.Users.FindAsync(id);
+            var address = await _dbContext.Addresses.FindAsync(id);
+
             if (user != null)
             {
                 _dbContext.Users.Remove(user);
+                if (address != null)
+                {
+                    _dbContext.Addresses.Remove(address);
+                }
                 await _dbContext.SaveChangesAsync();
-                return Ok("Record deleted succesfully!");
+                return Ok("User record deleted succesfully!");
             }
             else
             {
-                return NotFound("No records found for the provided Id ");
+                return NotFound("No User records found for the provided Id ");
             }
+
         }
     }
 }

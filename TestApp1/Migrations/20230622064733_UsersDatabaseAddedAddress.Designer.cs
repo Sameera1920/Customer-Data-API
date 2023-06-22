@@ -11,8 +11,8 @@ using TestApp1.Data;
 namespace TestApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230619095030_secondTry")]
-    partial class secondTry
+    [Migration("20230622064733_UsersDatabaseAddedAddress")]
+    partial class UsersDatabaseAddedAddress
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,21 +218,70 @@ namespace TestApp1.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TestApp1.Models.Song", b =>
+            modelBuilder.Entity("TestApp1.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Language")
+                    b.Property<string>("City")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Title")
+                    b.Property<int?>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Zipcode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("TestApp1.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Company")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EyeColor")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("songs");
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -284,6 +333,15 @@ namespace TestApp1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TestApp1.Models.User", b =>
+                {
+                    b.HasOne("TestApp1.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

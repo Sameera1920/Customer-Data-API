@@ -335,15 +335,10 @@ namespace TestApp1.Migrations
             modelBuilder.Entity("TestApp1.Models.User", b =>
                 {
                     b.HasOne("TestApp1.Models.Address", "Address")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("TestApp1.Models.Address", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

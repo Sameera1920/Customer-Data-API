@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TestApp1.Data;
 using TestApp1.Models;
@@ -24,9 +25,24 @@ namespace TestApp1.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> Get()
+        public async Task<IActionResult> GetUsers()
         {
-            return _dbContext.Users;
+            var users = await(from user in _dbContext.Users
+                         select new
+                         {
+                             Id = user.Id,
+                             Index = user.Index,
+                             Age = user.Age,
+                             EyeColor = user.EyeColor,
+                             Name = user.Name,
+                             Gender = user.Gender,
+                             Company = user.Company,
+                             Email = user.Email,
+                             Phone = user.Phone,
+                             Address = user.Address
+
+                         }).ToListAsync();
+            return Ok(users);
         }
 
         // GET api/Users/5

@@ -10,9 +10,6 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
-    <None Remove="Migrations\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 
@@ -28,8 +25,5 @@
   <ItemGroup>
     <Compile Remove="Migrations\20230619095030_secondTry.Designer.cs" />
     <Compile Remove="Migrations\20230619095030_secondTry.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

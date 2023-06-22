@@ -47,18 +47,29 @@ namespace TestApp1.Controllers
 
         // GET api/Users/5
         [HttpGet("{id}")]
-        public IEnumerable<User> Get(int id)
+        public async Task<IActionResult> GetUsers(int id)
         {
-            var user = _dbContext.Users.Find(id);
-            if (user!= null)
-            {
-                yield return user;
-            }
+            var users = await (from user in _dbContext.Users.Where(u=>u.Id==id)
+                               select new
+                               {
+                                   Id = user.Id,
+                                   Index = user.Index,
+                                   Age = user.Age,
+                                   EyeColor = user.EyeColor,
+                                   Name = user.Name,
+                                   Gender = user.Gender,
+                                   Company = user.Company,
+                                   Email = user.Email,
+                                   Phone = user.Phone,
+                                   Address = user.Address
+
+                               }).ToListAsync();
+            return Ok(users);
         }
 
-       
-    // POST api/Users
-    [HttpPost]
+
+        // POST api/Users
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             await _dbContext.AddAsync(user);

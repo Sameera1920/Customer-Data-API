@@ -18,6 +18,6 @@ namespace TestApp1.Models
         public string? State { get; set; }
         public int? Zipcode { get; set; }
 
-        public ICollection<User>? Users { get; set; }
+        public ICollection<User>? Users { get; set; } //public User? Users { get; set; } will not generate AddressId
     }
 }

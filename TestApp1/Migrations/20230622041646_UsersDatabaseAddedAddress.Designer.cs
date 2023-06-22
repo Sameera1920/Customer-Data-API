@@ -11,7 +11,7 @@ using TestApp1.Data;
 namespace TestApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230621073942_UsersDatabaseAddedAddress")]
+    [Migration("20230622041646_UsersDatabaseAddedAddress")]
     partial class UsersDatabaseAddedAddress
     {
         /// <inheritdoc />

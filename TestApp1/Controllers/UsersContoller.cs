@@ -82,6 +82,8 @@ namespace TestApp1.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
             var userObj = await _dbContext.Users.FindAsync(id);
+            var addressObj = await _dbContext.Addresses.FindAsync(id);
+
             if (userObj !=null)
             {
                 userObj.Index = user.Index;
@@ -92,7 +94,15 @@ namespace TestApp1.Controllers
                 userObj.Company = user.Company;
                 userObj.Email = user.Email;
                 userObj.Phone = user.Phone;
-                userObj.Address = user.Address;
+
+                if (addressObj != null)
+                {
+                    addressObj.Number = user.Address.Number;
+                    addressObj.Street = user.Address.Street;
+                    addressObj.City = user.Address.City;
+                    addressObj.State = user.Address.State;
+                    addressObj.Zipcode = user.Address.Zipcode;
+                }
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");
 

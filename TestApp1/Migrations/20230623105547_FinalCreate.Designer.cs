@@ -11,8 +11,8 @@ using TestApp1.Data;
 namespace TestApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230623105100_FeedDataTodatabase")]
-    partial class FeedDataTodatabase
+    [Migration("20230623105547_FinalCreate")]
+    partial class FinalCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -297,14 +297,6 @@ namespace TestApp1.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 68,
-                            Age = 0,
-                            Index = 68
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

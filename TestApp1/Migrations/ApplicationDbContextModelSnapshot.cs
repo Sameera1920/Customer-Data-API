@@ -294,14 +294,6 @@ namespace TestApp1.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 68,
-                            Age = 0,
-                            Index = 68
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

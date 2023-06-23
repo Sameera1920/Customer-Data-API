@@ -37,17 +37,6 @@ public class ApplicationDbContext : IdentityDbContext
                      (c1, c2) => c1.SequenceEqual(c2),
                      c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                      c => (ICollection<string>)c.ToList()));
-
-  
-
-         modelBuilder.Entity<User>()
-            .HasData(
-                 new User
-                 {
-                    Id=68,
-                    Index =68
-                 }
-             );
     }
 }
 

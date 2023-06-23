@@ -11,7 +11,7 @@ using TestApp1.Data;
 namespace TestApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230622064733_UsersDatabaseAddedAddress")]
+    [Migration("20230623013206_UsersDatabaseAddedAddress")]
     partial class UsersDatabaseAddedAddress
     {
         /// <inheritdoc />
@@ -250,6 +250,9 @@ namespace TestApp1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("About")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
@@ -271,10 +274,19 @@ namespace TestApp1.Migrations
                     b.Property<int>("Index")
                         .HasColumnType("int");
 
+                    b.Property<float?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<float?>("Longitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Phone")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Registered")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

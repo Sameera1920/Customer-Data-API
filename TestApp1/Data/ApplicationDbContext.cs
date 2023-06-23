@@ -24,16 +24,17 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
-        
+    public DbSet<User> Users { get; set; }
+    public DbSet<Address> Addresses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
           base.OnModelCreating(modelBuilder);
-          modelBuilder.Entity<User>();
-      }
+        modelBuilder.Entity<User>();
 
-    public DbSet<User> Users { get; set; }
-    public DbSet<Address> Addresses { get; set; }
+    }
+
+   
 
 
 }

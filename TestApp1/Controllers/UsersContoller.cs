@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TestApp1.Data;
 using TestApp1.Models;
+using TestApp1.Models.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,21 +28,38 @@ namespace TestApp1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await(from user in _dbContext.Users
-                         select new
-                         {
-                             Id = user.Id,
-                             Index = user.Index,
-                             Age = user.Age,
-                             EyeColor = user.EyeColor,
-                             Name = user.Name,
-                             Gender = user.Gender,
-                             Company = user.Company,
-                             Email = user.Email,
-                             Phone = user.Phone,
-                             Address = user.Address
+            var users = await (
+                               from u in _dbContext.Users
+                               select new UserDTO()
+                               {
+                                    Id = u.Id,
+                                    Index = u.Index,
+                                    Age = u.Age,
+                                    EyeColor = u.EyeColor,
+                                    Name = u.Name,
+                                    Gender = u.Gender,
+                                    Company = u.Company,
+                                    Email = u.Email,
+                                    Phone = u.Phone,
+                                    Address=u.Address,
+                                    About = u.About,
+                                    Registered = u.Registered,
+                                    Latitude = u.Latitude,
+                                    Longitude = u.Longitude,
+                                    //Tags = u.Tags
+                                 }).ToListAsync();
 
-                         }).ToListAsync();
+            //var addresses = await (from a in _dbContext.Addresses
+            //                   select new AddressDTO()
+                         
+            //            {
+            //                Number = a.Number,
+            //                Street = a.Street,
+            //                City =a.City,
+            //                State = a.State,
+            //                Zipcode = a.Zipcode
+            //            }).ToListAsync();
+
             return Ok(users);
         }
 
@@ -61,7 +79,12 @@ namespace TestApp1.Controllers
                                    Company = user.Company,
                                    Email = user.Email,
                                    Phone = user.Phone,
-                                   Address = user.Address
+                                   Address = user.Address,
+                                   About = user.About,
+                                   Registered = user.Registered,
+                                   Latitude = user.Latitude,
+                                   Longitude = user.Longitude,
+                                   //Tags = user.Tags
 
                                }).ToListAsync();
             return Ok(users);
@@ -103,6 +126,13 @@ namespace TestApp1.Controllers
                     addressObj.State = user.Address.State;
                     addressObj.Zipcode = user.Address.Zipcode;
                 }
+
+                userObj.About = user.About;
+                userObj.Registered = user.Registered;
+                userObj.Latitude = user.Latitude;
+                userObj.Longitude = user.Longitude;
+                //userObj.Tags = user.Tags;
+
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");
 

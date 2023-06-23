@@ -19,7 +19,7 @@ namespace TestApp1.Models.DTOs
         public string? Registered { get; set; }
         public float? Latitude { get; set; }
         public float? Longitude { get; set; }
-        //public string[]? Tags { get; set; }	
+        public ICollection<string>? Tags { get; set; }
     }
 }
 

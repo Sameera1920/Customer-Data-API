@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using TestApp1.Models;
 
 namespace TestApp1.Models
 {
@@ -25,7 +26,7 @@ namespace TestApp1.Models
         public string? Registered { get; set; }
         public float? Latitude { get; set; }
         public float? Longitude { get; set; }
-        //public string[]? Tags { get; set; }
+        public ICollection<string>? Tags{ get; set; }
 
 
     }

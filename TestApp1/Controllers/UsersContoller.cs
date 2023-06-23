@@ -17,12 +17,16 @@ namespace TestApp1.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+
+
         private ApplicationDbContext _dbContext;
 
         public UsersController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
+      
 
         // GET: api/Users
         [HttpGet]
@@ -52,8 +56,8 @@ namespace TestApp1.Controllers
                                    About = u.About,
                                    Registered = u.Registered,
                                    Latitude = u.Latitude,
-                                   Longitude = u.Longitude
-                                   //Tags = u.Tags
+                                   Longitude = u.Longitude,
+                                   Tags = u.Tags
                                }).ToListAsync();
             return Ok(users);
         }
@@ -87,8 +91,8 @@ namespace TestApp1.Controllers
                                    About = u.About,
                                    Registered = u.Registered,
                                    Latitude = u.Latitude,
-                                   Longitude = u.Longitude
-                                   //Tags = u.Tags
+                                   Longitude = u.Longitude,
+                                   Tags = u.Tags
                                }).ToListAsync();
            return Ok(users);
         }
@@ -136,7 +140,7 @@ namespace TestApp1.Controllers
                 user.Registered = userObj.Registered;
                 user.Latitude = userObj.Latitude;
                 user.Longitude = userObj.Longitude;
-                //user.Tags = userObj.Tags;
+                user.Tags = userObj.Tags;
 
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");

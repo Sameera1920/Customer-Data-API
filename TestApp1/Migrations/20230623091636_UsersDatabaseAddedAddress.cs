@@ -116,7 +116,9 @@ namespace TestApp1.Migrations
                     Registered = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Latitude = table.Column<float>(type: "float", nullable: true),
-                    Longitude = table.Column<float>(type: "float", nullable: true)
+                    Longitude = table.Column<float>(type: "float", nullable: true),
+                    Tags = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

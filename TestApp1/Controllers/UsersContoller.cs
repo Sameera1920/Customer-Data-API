@@ -129,7 +129,7 @@ namespace TestApp1.Controllers
 
                 if (address != null)
                 {
-                    address.Number = userObj.Address.Number;
+                    address.Number = userObj.Address!.Number;
                     address.Street = userObj.Address.Street;
                     address.City = userObj.Address.City;
                     address.State = userObj.Address.State;

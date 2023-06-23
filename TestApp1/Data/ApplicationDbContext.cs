@@ -22,8 +22,8 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Address> Addresses { get; set; }
+    public DbSet<User> Users {get; set;}
+    public DbSet<Address> Addresses {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,10 +31,10 @@ public class ApplicationDbContext : IdentityDbContext
         modelBuilder.Entity<User>()
             .Property(e => e.Tags)
             .HasConversion(
-                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
-                v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
+                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null!),
+                v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null!),
                 new ValueComparer<ICollection<string>>(
-                     (c1, c2) => c1.SequenceEqual(c2),
+                     (c1, c2) => c1!.SequenceEqual(c2!),
                      c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                      c => (ICollection<string>)c.ToList()));
     }

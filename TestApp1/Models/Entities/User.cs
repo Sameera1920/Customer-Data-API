@@ -27,8 +27,5 @@ namespace TestApp1.Models
         public float? Latitude { get; set; }
         public float? Longitude { get; set; }
         public ICollection<string>? Tags{ get; set; }
-
-
     }
-
 }

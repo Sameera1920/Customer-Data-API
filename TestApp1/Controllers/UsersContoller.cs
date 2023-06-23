@@ -60,30 +60,40 @@ namespace TestApp1.Controllers
 
         // GET api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUsers(int id)
+        public async Task<IActionResult> GetUsersWithId(int id)
         {
-            var users = await (from user in _dbContext.Users.Where(u=>u.Id==id)
-                               select new
+            var users = await (from u in _dbContext.Users
+                               .Include(u => u.Address)
+                               where u.Id == id
+                               select new UserDTO()
                                {
-                                   Id = user.Id,
-                                   Index = user.Index,
-                                   Age = user.Age,
-                                   EyeColor = user.EyeColor,
-                                   Name = user.Name,
-                                   Gender = user.Gender,
-                                   Company = user.Company,
-                                   Email = user.Email,
-                                   Phone = user.Phone,
-                                   Address = user.Address,
-                                   About = user.About,
-                                   Registered = user.Registered,
-                                   Latitude = user.Latitude,
-                                   Longitude = user.Longitude,
-                                   //Tags = user.Tags
-
+                                   Id = u.Id,
+                                   Index = u.Index,
+                                   Age = u.Age,
+                                   EyeColor = u.EyeColor,
+                                   Name = u.Name,
+                                   Gender = u.Gender,
+                                   Company = u.Company,
+                                   Email = u.Email,
+                                   Phone = u.Phone,
+                                   Address = (u.Address != null) ? new AddressDTO()
+                                   {
+                                       Number = u.Address.Number,
+                                       Street = u.Address.Street,
+                                       City = u.Address.City,
+                                       State = u.Address.State,
+                                       Zipcode = u.Address.Zipcode
+                                   } : null,
+                                   About = u.About,
+                                   Registered = u.Registered,
+                                   Latitude = u.Latitude,
+                                   Longitude = u.Longitude
+                                   //Tags = u.Tags
                                }).ToListAsync();
-            return Ok(users);
+           return Ok(users);
         }
+
+
 
 
         // POST api/Users
@@ -97,36 +107,36 @@ namespace TestApp1.Controllers
 
         // PUT api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] User user)
+        public async Task<IActionResult> Put(int id, [FromBody] User userObj)
         {
-            var userObj = await _dbContext.Users.FindAsync(id);
-            var addressObj = await _dbContext.Addresses.FindAsync(id);
+            var user = await _dbContext.Users.FindAsync(id);
+            var address = await _dbContext.Addresses.FindAsync(id);
 
-            if (userObj !=null)
+            if (user != null)
             {
-                userObj.Index = user.Index;
-                userObj.Age = user.Age;
-                userObj.EyeColor = user.EyeColor;
-                userObj.Name = user.Name;
-                userObj.Gender = user.Gender;
-                userObj.Company = user.Company;
-                userObj.Email = user.Email;
-                userObj.Phone = user.Phone;
+                user.Index = userObj.Index;
+                user.Age = userObj.Age;
+                user.EyeColor = userObj.EyeColor;
+                user.Name = userObj.Name;
+                user.Gender = userObj.Gender;
+                user.Company = userObj.Company;
+                user.Email = userObj.Email;
+                user.Phone = userObj.Phone;
 
-                if (addressObj != null)
+                if (address != null)
                 {
-                    addressObj.Number = user.Address.Number;
-                    addressObj.Street = user.Address.Street;
-                    addressObj.City = user.Address.City;
-                    addressObj.State = user.Address.State;
-                    addressObj.Zipcode = user.Address.Zipcode;
+                    address.Number = userObj.Address.Number;
+                    address.Street = userObj.Address.Street;
+                    address.City = userObj.Address.City;
+                    address.State = userObj.Address.State;
+                    address.Zipcode = userObj.Address.Zipcode;
                 }
 
-                userObj.About = user.About;
-                userObj.Registered = user.Registered;
-                userObj.Latitude = user.Latitude;
-                userObj.Longitude = user.Longitude;
-                //userObj.Tags = user.Tags;
+                user.About = userObj.About;
+                user.Registered = userObj.Registered;
+                user.Latitude = userObj.Latitude;
+                user.Longitude = userObj.Longitude;
+                //user.Tags = userObj.Tags;
 
                 await _dbContext.SaveChangesAsync();
                 return Ok("Record updated succesfully!");

@@ -14,7 +14,7 @@ namespace TestApp1.Models.DTOs
         public string? Company { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public Address? Address { get; set; }
+        public AddressDTO? Address { get; set; }
         public string? About { get; set; }
         public string? Registered { get; set; }
         public float? Latitude { get; set; }

@@ -28,38 +28,33 @@ namespace TestApp1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await (
-                               from u in _dbContext.Users
+            var users = await (from u in _dbContext.Users
+                               .Include(u=>u.Address)
                                select new UserDTO()
                                {
-                                    Id = u.Id,
-                                    Index = u.Index,
-                                    Age = u.Age,
-                                    EyeColor = u.EyeColor,
-                                    Name = u.Name,
-                                    Gender = u.Gender,
-                                    Company = u.Company,
-                                    Email = u.Email,
-                                    Phone = u.Phone,
-                                    Address=u.Address,
-                                    About = u.About,
-                                    Registered = u.Registered,
-                                    Latitude = u.Latitude,
-                                    Longitude = u.Longitude,
-                                    //Tags = u.Tags
-                                 }).ToListAsync();
-
-            //var addresses = await (from a in _dbContext.Addresses
-            //                   select new AddressDTO()
-                         
-            //            {
-            //                Number = a.Number,
-            //                Street = a.Street,
-            //                City =a.City,
-            //                State = a.State,
-            //                Zipcode = a.Zipcode
-            //            }).ToListAsync();
-
+                                   Id = u.Id,
+                                   Index = u.Index,
+                                   Age = u.Age,
+                                   EyeColor = u.EyeColor,
+                                   Name = u.Name,
+                                   Gender = u.Gender,
+                                   Company = u.Company,
+                                   Email = u.Email,
+                                   Phone = u.Phone,
+                                   Address= (u.Address!=null)?new AddressDTO()
+                                   {
+                                       Number= u.Address.Number,
+                                       Street = u.Address.Street,
+                                       City = u.Address.City,
+                                       State = u.Address.State,
+                                       Zipcode = u.Address.Zipcode
+                                   }:null,
+                                   About = u.About,
+                                   Registered = u.Registered,
+                                   Latitude = u.Latitude,
+                                   Longitude = u.Longitude
+                                   //Tags = u.Tags
+                               }).ToListAsync();
             return Ok(users);
         }
 

@@ -83,22 +83,19 @@ namespace TestApp1.Controllers
             var user = await _dbContext.Users.FindAsync(id);
             var address = await _dbContext.Addresses.FindAsync(id);
 
-            if (user != null)
-            {
-                _dbContext.Users.Remove(user);
-                if (address != null)
-                {
-                    _dbContext.Addresses.Remove(address);
-                }
-                await _dbContext.SaveChangesAsync();
-                return Ok("User record deleted succesfully!");
-            }
-            else
-            {
+            if (user == null)
                 return NotFound("No User records found for the provided Id ");
-            }
 
+            _dbContext.Users.Remove(user);
+            if (address != null)
+             {
+                _dbContext.Addresses.Remove(address);
+             }
+            await _dbContext.SaveChangesAsync();
+            return Ok("User record deleted succesfully!");
         }
+
+
 
         private static UserDTO MapUserToDTO(User user)
         {

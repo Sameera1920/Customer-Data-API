@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TestApp1.Migrations
 {
     /// <inheritdoc />
-    public partial class FinalCreate : Migration
+    public partial class AfterRefactoring : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TestApp1.Data;
 using TestApp1.Models;
 using TestApp1.Models.DTOs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestApp1.Controllers
 {
@@ -20,85 +23,37 @@ namespace TestApp1.Controllers
 
 
         private ApplicationDbContext _dbContext;
-
         public UsersController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-      
-
         // GET: api/Users
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await (from u in _dbContext.Users
-                               .Include(u=>u.Address)
-                               select new UserDTO()
-                               {
-                                   Id = u.Id,
-                                   Index = u.Index,
-                                   Age = u.Age,
-                                   EyeColor = u.EyeColor,
-                                   Name = u.Name,
-                                   Gender = u.Gender,
-                                   Company = u.Company,
-                                   Email = u.Email,
-                                   Phone = u.Phone,
-                                   Address= (u.Address!=null)?new AddressDTO()
-                                   {
-                                       Number= u.Address.Number,
-                                       Street = u.Address.Street,
-                                       City = u.Address.City,
-                                       State = u.Address.State,
-                                       Zipcode = u.Address.Zipcode
-                                   }:null,
-                                   About = u.About,
-                                   Registered = u.Registered,
-                                   Latitude = u.Latitude,
-                                   Longitude = u.Longitude,
-                                   Tags = u.Tags
-                               }).ToListAsync();
-            return Ok(users);
+                var users = await _dbContext.Users
+                    .Include(u => u.Address)
+                    .Select(u => MapUserToDTO(u))
+                    .ToListAsync();
+
+                return Ok(users);
         }
 
         // GET api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUsersWithId(int id)
         {
-            var users = await (from u in _dbContext.Users
-                               .Include(u => u.Address)
-                               where u.Id == id
-                               select new UserDTO()
-                               {
-                                   Id = u.Id,
-                                   Index = u.Index,
-                                   Age = u.Age,
-                                   EyeColor = u.EyeColor,
-                                   Name = u.Name,
-                                   Gender = u.Gender,
-                                   Company = u.Company,
-                                   Email = u.Email,
-                                   Phone = u.Phone,
-                                   Address = (u.Address != null) ? new AddressDTO()
-                                   {
-                                       Number = u.Address.Number,
-                                       Street = u.Address.Street,
-                                       City = u.Address.City,
-                                       State = u.Address.State,
-                                       Zipcode = u.Address.Zipcode
-                                   } : null,
-                                   About = u.About,
-                                   Registered = u.Registered,
-                                   Latitude = u.Latitude,
-                                   Longitude = u.Longitude,
-                                   Tags = u.Tags
-                               }).ToListAsync();
-           return Ok(users);
+            var user = await _dbContext.Users
+                .Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+                return NotFound("No User records found for the provided Id");
+
+            var userDTO = MapUserToDTO(user);
+            return Ok(userDTO);
         }
-
-
-
 
         // POST api/Users
         [HttpPost]
@@ -109,48 +64,17 @@ namespace TestApp1.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        // PUT api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] User userObj)
-        {
-            var user = await _dbContext.Users.FindAsync(id);
-            var address = await _dbContext.Addresses.FindAsync(id);
+        //// PUT api/Users/5
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Put(int id, [FromBody] User userObj)
+        //{
+        //    var user = await _dbContext.Users.FindAsync(id);
+        //    if (user == null)
+        //        return NotFound("No records found for the provided Id");
 
-            if (user != null)
-            {
-                user.Index = userObj.Index;
-                user.Age = userObj.Age;
-                user.EyeColor = userObj.EyeColor;
-                user.Name = userObj.Name;
-                user.Gender = userObj.Gender;
-                user.Company = userObj.Company;
-                user.Email = userObj.Email;
-                user.Phone = userObj.Phone;
-
-                if (address != null)
-                {
-                    address.Number = userObj.Address!.Number;
-                    address.Street = userObj.Address.Street;
-                    address.City = userObj.Address.City;
-                    address.State = userObj.Address.State;
-                    address.Zipcode = userObj.Address.Zipcode;
-                }
-
-                user.About = userObj.About;
-                user.Registered = userObj.Registered;
-                user.Latitude = userObj.Latitude;
-                user.Longitude = userObj.Longitude;
-                user.Tags = userObj.Tags;
-
-                await _dbContext.SaveChangesAsync();
-                return Ok("Record updated succesfully!");
-
-            }
-            else
-            {
-                return NotFound("No records found for the provided Id ");
-            }
-        }
+        //    await _dbContext.SaveChangesAsync();
+        //    return Ok("Record updated successfully!");
+        //}
 
         // DELETE api/Users/5
         [HttpDelete("{id}")]
@@ -175,6 +99,53 @@ namespace TestApp1.Controllers
             }
 
         }
+
+        private static UserDTO MapUserToDTO(User user)
+        {
+            var userDTO = new UserDTO();
+            var userProperties = typeof(UserDTO).GetProperties();
+
+            foreach (var userProperty in userProperties)
+            {
+                var userPropertyName = userProperty.Name;
+                var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
+                var userPropertyValue = userPropertyInfo?.GetValue(user);
+
+                if (userPropertyName == nameof(UserDTO.Address))
+                {
+                    var addressDTO = MapAddressToDTO((Address) userPropertyValue);
+                    userProperty.SetValue(userDTO, addressDTO);
+                }
+                else
+                {
+                    userProperty.SetValue(userDTO, userPropertyValue);
+                }
+            }
+
+            return userDTO;
+        }
+
+        private static AddressDTO? MapAddressToDTO(Address address)
+        {
+            if (address == null)
+                return null;
+
+            var addressDTO = new AddressDTO();
+            var addressProperties = typeof(AddressDTO).GetProperties();
+
+            foreach (var addressProperty in addressProperties)
+            {
+                var addressPropertyName = addressProperty.Name;
+                var addressPropertyInfo = typeof(Address).GetProperty(addressPropertyName);
+                var addressPropertyValue = addressPropertyInfo?.GetValue(address);
+
+                addressProperty.SetValue(addressDTO, addressPropertyValue);
+            }
+
+            return addressDTO;
+        }
+
+
     }
 }
 

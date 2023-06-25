@@ -11,8 +11,8 @@ using TestApp1.Data;
 namespace TestApp1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230623105547_FinalCreate")]
-    partial class FinalCreate
+    [Migration("20230625202653_AfterRefactoring")]
+    partial class AfterRefactoring
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

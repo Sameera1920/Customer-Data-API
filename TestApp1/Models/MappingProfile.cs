@@ -7,11 +7,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<UserUpdateDTO, User>();
-        CreateMap<AddressUpdateDTO, Address>();
+        CreateMap<UserUpdateRequestDTO, User>();
         CreateMap<AddressDTO, Address>();
-
-
     }
 }
 

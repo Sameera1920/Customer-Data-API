@@ -71,7 +71,7 @@ namespace TestApp1.Controllers
 
         // PUT api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userDTO)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateRequestDTO userDTO)
         {
             if (id != userDTO.Id)
             {
@@ -119,9 +119,9 @@ namespace TestApp1.Controllers
 
 
 
-        private static UserDTO MapUserToDTO(User user)
+        private static UserGetRequestDTO MapUserToDTO(User user)
         {
-            var userDTO = new UserDTO();
+            var userDTO = new UserGetRequestDTO();
             var userProperties = typeof(UserDTO).GetProperties();
 
             foreach (var userProperty in userProperties)
@@ -130,16 +130,16 @@ namespace TestApp1.Controllers
                 var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
                 var userPropertyValue = userPropertyInfo?.GetValue(user);
 
-                if (userPropertyName == nameof(UserDTO.Address))
+                if (userPropertyName == nameof(UserGetRequestDTO.Address))
                 {
-                    var addressDTO = MapAddressToDTO((Address) userPropertyValue);
+                    var addressDTO = MapAddressToDTO((Address)userPropertyValue);
                     userProperty.SetValue(userDTO, addressDTO);
                 }
                 else
                 {
                     userProperty.SetValue(userDTO, userPropertyValue);
-                }
             }
+        }
 
             return userDTO;
         }

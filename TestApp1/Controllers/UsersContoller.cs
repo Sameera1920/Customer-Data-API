@@ -30,7 +30,6 @@ namespace TestApp1.Controllers
             _dbContext = dbContext;
         }
 
-
         // GET: api/Users
         [HttpGet]
         public async Task<IActionResult> GetUsers()

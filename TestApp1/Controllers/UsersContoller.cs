@@ -12,6 +12,7 @@ using TestApp1.Data;
 using TestApp1.Models;
 using TestApp1.Models.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using AutoMapper;
 
 
 namespace TestApp1.Controllers
@@ -20,13 +21,15 @@ namespace TestApp1.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IMapper _mapper;
+        private readonly ApplicationDbContext _dbContext;
 
-
-        private ApplicationDbContext _dbContext;
-        public UsersController(ApplicationDbContext dbContext)
+        public UsersController(IMapper mapper, ApplicationDbContext dbContext)
         {
+            _mapper = mapper;
             _dbContext = dbContext;
         }
+
 
         // GET: api/Users
         [HttpGet]
@@ -64,17 +67,98 @@ namespace TestApp1.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        //// PUT api/Users/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(int id, [FromBody] User userObj)
-        //{
-        //    var user = await _dbContext.Users.FindAsync(id);
-        //    if (user == null)
-        //        return NotFound("No records found for the provided Id");
+       
 
-        //    await _dbContext.SaveChangesAsync();
+        // PUT api/Users/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userDTO)
+        {
+            if (id != userDTO.Id)
+            {
+                return BadRequest("Mismatch between the provided id and the user's id");
+            }
+
+            var user = await _dbContext.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            _mapper.Map(userDTO, user);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+                return Ok("User updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while updating the user: {ex.Message}");
+            }
+        }
+
+
+        //public async Task<IActionResult> Put(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var userToUpdate = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+        //    if (await TryUpdateModelAsync<User>(
+        //        userToUpdate,
+        //        "",
+        //        s => s.Index, s => s.Name, s => s.Email))
+        //    {
+        //        try
+        //        {
+        //            await _dbContext.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateException /* ex */)
+        //        {
+        //            return NotFound("No records found for the provided Id");
+        //        }
+        //    }
         //    return Ok("Record updated successfully!");
         //}
+
+        //public async Task<IActionResult> Put(int id, [FromBody] User userObj)
+        //{
+        //    var user = _dbContext.Users.FindAsync(id);
+
+        //    if (user != null)
+        //    {
+        //        _dbContext.Update(userObj);
+
+        //        await _dbContext.SaveChangesAsync();
+        //        return Ok("Record updated successfully!");
+        //    }
+        //    else
+        //    {
+        //        return NotFound("No records found for the provided Id");
+
+        //    }
+
+
+
+        //    //var userProperties = typeof(User).GetProperties();
+
+        //    //foreach (var userProperty in userProperties)
+        //    //{
+        //    //    var userPropertyName = userProperty.Name;
+        //    //    var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
+        //    //    var userPropertyValue = userPropertyInfo?.GetValue(userObj);
+        //    //    user[userPropertyInfo] = userPropertyValue;
+        //    //}
+
+
+        //}
+
+        //[HttpPost, ActionName("Edit")]
+        //[ValidateAntiForgeryToken]
+
+
 
         // DELETE api/Users/5
         [HttpDelete("{id}")]
@@ -142,7 +226,21 @@ namespace TestApp1.Controllers
             return addressDTO;
         }
 
+        private static User MapUserToExistingUser(User user, User userObj)
+        {
+            var userProperties = typeof(User).GetProperties();
 
+            foreach (var userProperty in userProperties)
+            {
+                var userPropertyName = userProperty.Name;
+                var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
+                var userPropertyValue = userPropertyInfo?.GetValue(userObj);
+
+               
+            }
+
+            return user;
+        }
     }
 }
 

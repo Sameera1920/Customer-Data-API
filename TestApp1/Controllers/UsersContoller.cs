@@ -98,68 +98,6 @@ namespace TestApp1.Controllers
             }
         }
 
-
-        //public async Task<IActionResult> Put(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var userToUpdate = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
-        //    if (await TryUpdateModelAsync<User>(
-        //        userToUpdate,
-        //        "",
-        //        s => s.Index, s => s.Name, s => s.Email))
-        //    {
-        //        try
-        //        {
-        //            await _dbContext.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateException /* ex */)
-        //        {
-        //            return NotFound("No records found for the provided Id");
-        //        }
-        //    }
-        //    return Ok("Record updated successfully!");
-        //}
-
-        //public async Task<IActionResult> Put(int id, [FromBody] User userObj)
-        //{
-        //    var user = _dbContext.Users.FindAsync(id);
-
-        //    if (user != null)
-        //    {
-        //        _dbContext.Update(userObj);
-
-        //        await _dbContext.SaveChangesAsync();
-        //        return Ok("Record updated successfully!");
-        //    }
-        //    else
-        //    {
-        //        return NotFound("No records found for the provided Id");
-
-        //    }
-
-
-
-        //    //var userProperties = typeof(User).GetProperties();
-
-        //    //foreach (var userProperty in userProperties)
-        //    //{
-        //    //    var userPropertyName = userProperty.Name;
-        //    //    var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
-        //    //    var userPropertyValue = userPropertyInfo?.GetValue(userObj);
-        //    //    user[userPropertyInfo] = userPropertyValue;
-        //    //}
-
-
-        //}
-
-        //[HttpPost, ActionName("Edit")]
-        //[ValidateAntiForgeryToken]
-
-
-
         // DELETE api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -224,22 +162,6 @@ namespace TestApp1.Controllers
             }
 
             return addressDTO;
-        }
-
-        private static User MapUserToExistingUser(User user, User userObj)
-        {
-            var userProperties = typeof(User).GetProperties();
-
-            foreach (var userProperty in userProperties)
-            {
-                var userPropertyName = userProperty.Name;
-                var userPropertyInfo = typeof(User).GetProperty(userPropertyName);
-                var userPropertyValue = userPropertyInfo?.GetValue(userObj);
-
-               
-            }
-
-            return user;
         }
     }
 }

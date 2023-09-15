@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestApp1.Models
+namespace CustomerDataAPI.Models
 {
 
     public class Address

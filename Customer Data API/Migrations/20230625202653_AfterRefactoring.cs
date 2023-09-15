@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TestApp1.Migrations
+namespace CustomerDataAPI.Migrations
 {
     /// <inheritdoc />
     public partial class AfterRefactoring : Migration

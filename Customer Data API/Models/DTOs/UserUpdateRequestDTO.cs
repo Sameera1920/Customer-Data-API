@@ -1,5 +1,5 @@
 ﻿using System;
-namespace TestApp1.Models.DTOs
+namespace CustomerDataAPI.Models.DTOs
 {
     public class UserUpdateRequestDTO:UserRequestDTO
     {

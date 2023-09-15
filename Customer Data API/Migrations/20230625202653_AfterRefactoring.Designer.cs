@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TestApp1.Data;
+using CustomerDataAPI.Data;
 
 #nullable disable
 
-namespace TestApp1.Migrations
+namespace CustomerDataAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230625202653_AfterRefactoring")]
+    partial class AfterRefactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,7 +218,7 @@ namespace TestApp1.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TestApp1.Models.Address", b =>
+            modelBuilder.Entity("CustomerDataAPI.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -241,7 +244,7 @@ namespace TestApp1.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("TestApp1.Models.User", b =>
+            modelBuilder.Entity("CustomerDataAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -347,9 +350,9 @@ namespace TestApp1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TestApp1.Models.User", b =>
+            modelBuilder.Entity("CustomerDataAPI.Models.User", b =>
                 {
-                    b.HasOne("TestApp1.Models.Address", "Address")
+                    b.HasOne("CustomerDataAPI.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 

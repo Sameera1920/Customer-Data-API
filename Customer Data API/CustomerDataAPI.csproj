@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-TestApp1-7d0457af-ac88-46dc-ab82-73664b547af8</UserSecretsId>
+    <UserSecretsId>aspnet-CustomerDataAPI-7d0457af-ac88-46dc-ab82-73664b547af8</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />

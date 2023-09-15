@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TestApp1.Models.DTOs
+namespace CustomerDataAPI.Models.DTOs
 {
     public class AddressDTO
     {

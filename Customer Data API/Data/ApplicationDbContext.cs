@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TestApp1.Data;
-using TestApp1.Models;
+using CustomerDataAPI.Data;
+using CustomerDataAPI.Models;
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace TestApp1.Data;
+namespace CustomerDataAPI.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {

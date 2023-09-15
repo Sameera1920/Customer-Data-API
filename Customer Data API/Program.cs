@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TestApp1.Data;
+using CustomerDataAPI.Data;
 using AutoMapper;
-using TestApp1.Models;
+using CustomerDataAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

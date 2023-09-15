@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TestApp1.Data;
-using TestApp1.Models;
-using TestApp1.Models.DTOs;
+using CustomerDataAPI.Data;
+using CustomerDataAPI.Models;
+using CustomerDataAPI.Models.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using AutoMapper;
 
 
-namespace TestApp1.Controllers
+namespace CustomerDataAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -131,7 +131,7 @@ namespace TestApp1.Controllers
 
                 if (userPropertyName == nameof(UserGetRequestDTO.Address))
                 {
-                    var addressDTO = MapAddressToDTO((Address)userPropertyValue);
+                    var addressDTO = MapAddressToDTO((Address)userPropertyValue!);
                     userProperty.SetValue(userDTO, addressDTO);
                 }
                 else

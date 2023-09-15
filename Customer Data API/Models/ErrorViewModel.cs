@@ -1,4 +1,4 @@
-﻿namespace TestApp1.Models;
+﻿namespace CustomerDataAPI.Models;
 
 public class ErrorViewModel
 {
